@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digital Architect System | The Operating System For Coaches & Agency Owners</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,800;9..144,900&family=JetBrains+Mono:wght@400;500;600&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0E0D0B;
+    --bg-elev: #16140F;
+    --bg-card: #1A1812;
+    --ink: #F4EFE3;
+    --ink-dim: #A8A091;
+    --ink-faint: #6E6655;
+    --rule: #2A2620;
+    --accent: #D4A24E;
+    --accent-bright: #E8B864;
+    --accent-deep: #8C6A2C;
+    --signal: #4ADE80;
+    --warn: #E26D5C;
+    --serif: 'Fraunces', 'Georgia', serif;
+    --sans: 'Inter Tight', -apple-system, sans-serif;
+    --mono: 'JetBrains Mono', 'Consolas', monospace;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  /* ==================== TOP UTILITY BAR ==================== */
+  .utility-bar {
+    background: var(--bg-elev);
+    border-bottom: 1px solid var(--rule);
+    padding: 10px 0;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+  }
+
+  .utility-bar-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .utility-bar .signal-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--signal);
+    margin-right: 8px;
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .utility-right {
+    display: flex;
+    gap: 32px;
+  }
+
+  .utility-right span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .utility-right .check {
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* ==================== NAV ==================== */
+  .nav {
+    position: relative;
+    z-index: 10;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .nav-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 22px;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .logo-mark {
+    width: 28px;
+    height: 28px;
+    border: 1.5px solid var(--accent);
+    position: relative;
+    transform: rotate(45deg);
+  }
+
+  .logo-mark::after {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    background: var(--accent);
+    opacity: 0.6;
+  }
+
+  .logo-text small {
+    display: block;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    font-weight: 400;
+    margin-top: 2px;
+  }
+
+  .nav-cta {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    text-decoration: none;
+    padding: 12px 20px;
+    border: 1px solid var(--rule);
+    transition: all 0.2s ease;
+  }
+
+  .nav-cta:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* ==================== HERO ==================== */
+  .hero {
+    position: relative;
+    padding: 80px 0 100px;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .hero-bg::before {
+    content: '';
+    position: absolute;
+    top: -200px;
+    right: -200px;
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, rgba(212, 162, 78, 0.08) 0%, transparent 60%);
+    filter: blur(40px);
+  }
+
+  .hero-bg::after {
+    content: '';
+    position: absolute;
+    bottom: -300px;
+    left: -100px;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(212, 162, 78, 0.04) 0%, transparent 60%);
+    filter: blur(50px);
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(212, 162, 78, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(212, 162, 78, 0.03) 1px, transparent 1px);
+    background-size: 64px 64px;
+    pointer-events: none;
+    mask-image: radial-gradient(ellipse at center top, black 30%, transparent 80%);
+  }
+
+  .container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 36px;
+    padding: 10px 18px;
+    border: 1px solid rgba(212, 162, 78, 0.3);
+    background: rgba(212, 162, 78, 0.05);
+    border-radius: 0;
+    animation: fadeUp 0.8s ease-out;
+  }
+
+  .hero-eyebrow .marker {
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+  }
+
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .hero-headline {
+    font-family: var(--serif);
+    font-size: clamp(40px, 6vw, 76px);
+    line-height: 0.98;
+    letter-spacing: -0.025em;
+    font-weight: 500;
+    margin-bottom: 40px;
+    max-width: 1100px;
+    animation: fadeUp 1s ease-out 0.15s both;
+  }
+
+  .hero-headline .accent-word {
+    color: var(--accent);
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  .hero-headline .strikethrough {
+    position: relative;
+    color: var(--ink-dim);
+  }
+
+  .hero-deck {
+    font-family: var(--sans);
+    font-size: clamp(17px, 1.4vw, 21px);
+    line-height: 1.55;
+    color: var(--ink-dim);
+    max-width: 720px;
+    margin-bottom: 48px;
+    font-weight: 400;
+    animation: fadeUp 1s ease-out 0.3s both;
+  }
+
+  .hero-deck strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  /* ==================== HERO LAYOUT ==================== */
+  .hero-layout {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 80px;
+    align-items: start;
+    margin-top: 60px;
+  }
+
+  @media (max-width: 960px) {
+    .hero-layout {
+      grid-template-columns: 1fr;
+      gap: 56px;
+    }
+  }
+
+  /* ==================== CTA STACK ==================== */
+  .cta-stack {
+    animation: fadeUp 1s ease-out 0.45s both;
+  }
+
+  .cta-button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    background: var(--accent);
+    color: var(--bg);
+    padding: 24px 32px;
+    border: none;
+    cursor: pointer;
+    font-family: var(--sans);
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-button::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--accent-bright);
+    transform: translateX(-101%);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .cta-button:hover::before {
+    transform: translateX(0);
+  }
+
+  .cta-button > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .cta-button .arrow {
+    width: 32px;
+    height: 32px;
+    border: 1.5px solid var(--bg);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+    font-size: 14px;
+  }
+
+  .cta-button:hover .arrow {
+    transform: translateY(2px);
+  }
+
+  .cta-sub {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-top: 16px;
+    text-align: center;
+  }
+
+  .trust-strip {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+
+  .trust-item {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .trust-item .check {
+    color: var(--signal);
+  }
+
+  /* ==================== VISUAL CARD ==================== */
+  .visual-card {
+    background: var(--bg-card);
+    border: 1px solid var(--rule);
+    padding: 32px;
+    position: relative;
+    animation: fadeUp 1s ease-out 0.6s both;
+  }
+
+  .visual-card::before {
+    content: 'OPERATOR DASHBOARD';
+    position: absolute;
+    top: 12px;
+    left: 32px;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--ink-faint);
+  }
+
+  .visual-card-corner {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-color: var(--accent);
+  }
+
+  .visual-card-corner.tl { top: 8px; left: 8px; border-top: 1px solid; border-left: 1px solid; }
+  .visual-card-corner.tr { top: 8px; right: 8px; border-top: 1px solid; border-right: 1px solid; }
+  .visual-card-corner.bl { bottom: 8px; left: 8px; border-bottom: 1px solid; border-left: 1px solid; }
+  .visual-card-corner.br { bottom: 8px; right: 8px; border-bottom: 1px solid; border-right: 1px solid; }
+
+  .system-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 24px 0 20px;
+    padding-top: 16px;
+    border-top: 1px solid var(--rule);
+  }
+
+  .system-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .system-item {
+    display: grid;
+    grid-template-columns: 32px 1fr auto;
+    gap: 16px;
+    align-items: center;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--rule);
+    transition: padding 0.2s ease;
+  }
+
+  .system-item:last-child {
+    border-bottom: none;
+  }
+
+  .system-item:hover {
+    padding-left: 8px;
+  }
+
+  .system-num {
+    font-family: var(--serif);
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--accent);
+    font-style: italic;
+  }
+
+  .system-name {
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+
+  .system-name small {
+    display: block;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    font-weight: 400;
+    margin-top: 4px;
+  }
+
+  .system-status {
+    width: 8px;
+    height: 8px;
+    background: var(--signal);
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(74, 222, 128, 0.5);
+  }
+
+  /* ==================== CREDIBILITY BAR ==================== */
+  .credibility-bar {
+    background: var(--bg-elev);
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    padding: 28px 0;
+    margin-top: 80px;
+  }
+
+  .credibility-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .cred-item {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+
+  .cred-num {
+    font-family: var(--serif);
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--accent);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .cred-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    line-height: 1.3;
+    max-width: 140px;
+  }
+
+  .cred-divider {
+    width: 1px;
+    height: 40px;
+    background: var(--rule);
+  }
+
+  @media (max-width: 768px) {
+    .cred-divider { display: none; }
+  }
+
+  /* ==================== BRIDGE SECTION ==================== */
+  .bridge-section {
+    padding: 120px 0;
+    position: relative;
+  }
+
+  .bridge-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 48px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .bridge-eyebrow::before,
+  .bridge-eyebrow::after {
+    content: '';
+    flex: 0 0 60px;
+    height: 1px;
+    background: var(--rule);
+  }
+
+  .bridge-eyebrow::after {
+    flex: 1;
+  }
+
+  .bridge-content {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .bridge-lead {
+    font-family: var(--serif);
+    font-size: clamp(28px, 3.5vw, 44px);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    font-weight: 500;
+    margin-bottom: 48px;
+    color: var(--ink);
+  }
+
+  .bridge-body p {
+    font-family: var(--sans);
+    font-size: 19px;
+    line-height: 1.65;
+    color: var(--ink-dim);
+    margin-bottom: 24px;
+  }
+
+  .bridge-body p strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .bridge-body .pull-quote {
+    font-family: var(--serif);
+    font-size: 26px;
+    line-height: 1.3;
+    color: var(--ink);
+    font-weight: 500;
+    border-left: 2px solid var(--accent);
+    padding-left: 32px;
+    margin: 48px 0;
+    font-style: italic;
+  }
+
+  .bridge-body .pull-quote .root-cause {
+    color: var(--accent);
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  .bridge-body .underline-em {
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+  }
+
+  /* ==================== SECOND CTA ==================== */
+  .second-cta-block {
+    margin-top: 64px;
+    padding: 48px;
+    background: var(--bg-elev);
+    border: 1px solid var(--rule);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .second-cta-block::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  }
+
+  .second-cta-flag {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+
+  .second-cta-flag::before {
+    content: '';
+    width: 16px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .second-cta-headline {
+    font-family: var(--serif);
+    font-size: 28px;
+    line-height: 1.2;
+    color: var(--ink);
+    margin-bottom: 24px;
+    font-weight: 500;
+  }
+
+  .second-cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    background: transparent;
+    color: var(--accent);
+    padding: 18px 28px;
+    border: 1.5px solid var(--accent);
+    cursor: pointer;
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.25s ease;
+  }
+
+  .second-cta-button:hover {
+    background: var(--accent);
+    color: var(--bg);
+  }
+
+  .second-cta-button .arrow {
+    transition: transform 0.3s ease;
+  }
+
+  .second-cta-button:hover .arrow {
+    transform: translateY(3px);
+  }
+
+  .second-cta-meta {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-top: 20px;
+  }
+
+  .second-cta-meta .accent {
+    color: var(--accent);
+  }
+
+  /* ==================== DECORATIVE ELEMENTS ==================== */
+  .corner-marker {
+    position: fixed;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--ink-faint);
+    z-index: 5;
+    pointer-events: none;
+  }
+
+  .corner-marker.bottom-right {
+    bottom: 24px;
+    right: 24px;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+  }
+
+  /* ==================== RESPONSIVE ==================== */
+  @media (max-width: 768px) {
+    .container { padding: 0 20px; }
+    .nav-inner, .utility-bar-inner, .credibility-inner { padding: 0 20px; }
+    .hero { padding: 56px 0 72px; }
+    .hero-headline { font-size: 36px; }
+    .bridge-section { padding: 80px 0; }
+    .bridge-lead { font-size: 26px; }
+    .bridge-body p { font-size: 17px; }
+    .bridge-body .pull-quote { font-size: 20px; padding-left: 20px; }
+    .second-cta-block { padding: 32px 24px; }
+    .utility-right span:first-child { display: none; }
+    .credibility-bar { padding: 20px 0; }
+    .cred-num { font-size: 24px; }
+    .corner-marker { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ==================== UTILITY BAR ==================== -->
+<div class="utility-bar">
+  <div class="utility-bar-inner">
+    <div>
+      <span class="signal-dot"></span>
+      Live · 4,612 operators inside the system
+    </div>
+    <div class="utility-right">
+      <span><span class="check">✓</span> 30-Day Operator's Guarantee</span>
+      <span><span class="check">✓</span> No Auto-Billing Increases</span>
+      <span><span class="check">✓</span> Cancel Anytime</span>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== NAV ==================== -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="logo">
+      <div class="logo-mark"></div>
+      <div class="logo-text">
+        Setterlun University
+        <small>Digital Architect System</small>
+      </div>
+    </div>
+    <a href="#cta" class="nav-cta">Join — $17/mo</a>
+  </div>
+</nav>
+
+<!-- ==================== HERO ==================== -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="hero-grid"></div>
+  </div>
+
+  <div class="container">
+
+    <!-- Eyebrow -->
+    <div class="hero-eyebrow">
+      <span class="marker"></span>
+      For Coaches & Agency Owners Stuck Between $20K and $50K Months
+    </div>
+
+    <!-- Headline -->
+    <h1 class="hero-headline">
+      Install The <span class="accent-word">4 Systems</span> That Removed Me From My Agency, Capped My Workweek At <span class="accent-word">25 Hours</span>, And Let It Keep Growing Without Me
+    </h1>
+
+    <!-- Deck -->
+    <p class="hero-deck">
+      I've used the same operating framework to scale <strong>9 different online businesses</strong> to 7 and 8 figures, generating <strong>$25M in total revenue</strong>. Now you can plug it into yours, inside our community, for $17 a month.
+    </p>
+
+    <!-- Layout: CTA + Visual -->
+    <div class="hero-layout">
+
+      <!-- Left: CTA -->
+      <div class="cta-stack" id="cta">
+        <a href="#" class="cta-button">
+          <span>Yes, Give Me The 4 Systems</span>
+          <span class="arrow">↓</span>
+        </a>
+        <p class="cta-sub">Get instant access inside Setterlun University · $17/month</p>
+
+        <div class="trust-strip">
+          <span class="trust-item"><span class="check">✓</span> Operator's Guarantee</span>
+          <span class="trust-item"><span class="check">✓</span> No Billing Surprises</span>
+          <span class="trust-item"><span class="check">✓</span> Cancel Anytime</span>
+        </div>
+      </div>
+
+      <!-- Right: Visual System Card -->
+      <div class="visual-card">
+        <div class="visual-card-corner tl"></div>
+        <div class="visual-card-corner tr"></div>
+        <div class="visual-card-corner bl"></div>
+        <div class="visual-card-corner br"></div>
+
+        <div class="system-label" style="margin-top: 16px;">— The Four Systems</div>
+
+        <div class="system-list">
+          <div class="system-item">
+            <div class="system-num">01</div>
+            <div class="system-name">
+              CRM Stack
+              <small>Pre-built · Free GHL account</small>
+            </div>
+            <div class="system-status"></div>
+          </div>
+          <div class="system-item">
+            <div class="system-num">02</div>
+            <div class="system-name">
+              Voice & SMS AI Agents
+              <small>Done-for-you · Auto follow-up</small>
+            </div>
+            <div class="system-status"></div>
+          </div>
+          <div class="system-item">
+            <div class="system-num">03</div>
+            <div class="system-name">
+              B2B Lead Engine
+              <small>Unlimited · Industry-specific</small>
+            </div>
+            <div class="system-status"></div>
+          </div>
+          <div class="system-item">
+            <div class="system-num">04</div>
+            <div class="system-name">
+              Operating Playbooks
+              <small>12 frameworks · SOPs · Templates</small>
+            </div>
+            <div class="system-status"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==================== CREDIBILITY BAR ==================== -->
+<div class="credibility-bar">
+  <div class="credibility-inner">
+    <div class="cred-item">
+      <div class="cred-num">9</div>
+      <div class="cred-label">Online Businesses Scaled to 7-8 Figures</div>
+    </div>
+    <div class="cred-divider"></div>
+    <div class="cred-item">
+      <div class="cred-num">$25M+</div>
+      <div class="cred-label">In Total Revenue Generated</div>
+    </div>
+    <div class="cred-divider"></div>
+    <div class="cred-item">
+      <div class="cred-num">Inc.5000</div>
+      <div class="cred-label">Award Winner</div>
+    </div>
+    <div class="cred-divider"></div>
+    <div class="cred-item">
+      <div class="cred-num">4,600+</div>
+      <div class="cred-label">Operators Inside Setterlun University</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== BRIDGE SECTION ==================== -->
+<section class="bridge-section">
+  <div class="container">
+
+    <div class="bridge-eyebrow">
+      The Real Reason You're Stuck
+    </div>
+
+    <div class="bridge-content">
+
+      <h2 class="bridge-lead">
+        You didn't get into business to work 60-hour weeks and answer client DMs at 9pm on a Tuesday.
+      </h2>
+
+      <div class="bridge-body">
+        <p>
+          But here's what nobody tells you about scaling a coaching business or an agency past $20K a month: every new client you sign adds work to your plate <span class="underline-em">faster than it adds margin to your business.</span>
+        </p>
+
+        <p>
+          You're not building a company. <strong>You're building a high-paying job that owns you.</strong>
+        </p>
+
+        <div class="pull-quote">
+          I call this the <span class="root-cause">Owner-Operator Trap</span>, and I've watched it stall thousands of capable entrepreneurs somewhere between $20K and $50K a month for years on end.
+        </div>
+
+        <p>
+          You can't out-hustle the trap. I tried. I worked harder, hired faster, took on more clients, and all it did was bury me deeper.
+        </p>
+
+        <p>
+          The only thing that actually got me out, and got 9 different businesses out after that, was building <strong>a mechanical operating system that could run the business without me sitting in the seat.</strong>
+        </p>
+
+        <p>
+          That system is what I'm giving you access to today, for $17 a month, inside our community.
+        </p>
+      </div>
+
+      <!-- Second CTA Block -->
+      <div class="second-cta-block">
+        <div class="second-cta-flag">Next Step</div>
+        <h3 class="second-cta-headline">See exactly how the 4 systems extract you from your own operations.</h3>
+        <a href="#" class="second-cta-button">
+          <span>Show Me How The System Works</span>
+          <span class="arrow">↓</span>
+        </a>
+        <p class="second-cta-meta">
+          Just $17/month · Cancel anytime · <span class="accent">Lock in the rate before it moves to $47</span>
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Decorative corner markers -->
+<div class="corner-marker bottom-right">SETTERLUN.U / DA-2026 / V.001</div>
+
+</body>
+</html>
